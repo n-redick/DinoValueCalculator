@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<lang>
+    <name>English</name>
+    <nameShort>en</nameShort>
+    <selectdefault>Choose Dino</selectdefault>
+    <bonuslevel>Bonus Level</bonuslevel>
+    <blevelTooltip>Level you get for taming</blevelTooltip>
+    <health>health</health>
+    <stamina>stamina</stamina>
+    <oxygen>oxygen</oxygen>
+    <weight>weight</weight>
+    <melee>melee</melee>
+    <speed>speed</speed>
+    <chance>chance</chance>
+    <chanceTooltip>Chance to get a higher stat then the given one</chanceTooltip>
+    <wish>wish</wish>
+    <wishTooltip>Your Highest Value in that stat</wishTooltip>
+    <chanceToImprove>Chance of Improvement</chanceToImprove>
+    <cookieAccept>Ok! I accept that!</cookieAccept>
+    <cookieText>To save your wishstats for specific dinos this Site uses Cookies.</cookieText>
+</lang>
+

@@ -46,7 +46,7 @@ and open the template in the editor.
                     <select class="form-control" id="dinotype">
                         <option>Choose Dino</option>
                         <?php
-                        $handle = fopen("newhtml.html", "r");
+                        $handle = fopen("./data/dinos.html", "r");
                         if ($handle) {
                             while (($line = fgets($handle)) !== false) {
                                 echo "<option>" . $line . "</option>";
@@ -221,6 +221,11 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            <div class="alert alert-danger alert-dismissable" contenteditable="true">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">OK! I accept that</button>
+                <h4>This site uses Cookies!</h4>
+                To save your wishstats for specific Dinos this Site uses Cookies.
+        </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -281,7 +286,7 @@ and open the template in the editor.
 
             });
 
-            
+
             function calcChances(fieldtype) {
                 target = parseInt($("#" + fieldtype + "wish").val()) - parseInt($("#" + fieldtype + "level").val());
                 console.log("target:" + target);
@@ -319,14 +324,14 @@ and open the template in the editor.
                     coeff /= x;
                 return coeff;
             }
-            $("#dinotype").change(function() {
+            $("#dinotype").change(function () {
                 dinoType = $("#dinotype").val();
                 console.log(dinoType);
                 if (dinoType != "Choose Dino") {
                     var parsed = JSON.parse(getCookie("wishes"));
                     console.log(parsed);
                     stats.forEach(function (entry) {
-                        
+
                         $("#" + entry + "wish").val(parsed[dinoType][entry]);
                     });
                 }
