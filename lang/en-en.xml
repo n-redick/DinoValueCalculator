@@ -11,6 +11,7 @@
     <health>health</health>
     <stamina>stamina</stamina>
     <oxygen>oxygen</oxygen>
+    <food>food</food>
     <weight>weight</weight>
     <melee>melee</melee>
     <speed>speed</speed>
@@ -21,5 +22,6 @@
     <chanceToImprove>Chance of Improvement</chanceToImprove>
     <cookieAccept>Ok! I accept that!</cookieAccept>
     <cookieText>To save your wishstats for specific dinos this Site uses Cookies.</cookieText>
+    <tame>Tame</tame>
 </lang>
 

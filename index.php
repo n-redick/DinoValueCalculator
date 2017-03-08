@@ -1,41 +1,46 @@
+<?php
+/* #################
+ * Get get last language, or set en as default.
+  ################ */
+
+$lang = "de-de";
+$langxml = simplexml_load_file("./lang/" . $lang . ".xml");
+$stats = Array("health", "stamina", "oxygen", "food", "weight", "melee", "speed");
+
+function generateStatLine($statName,$langxml) {
+    $htmlContainer = '';
+    $htmlContainer .= '<div class="row">';
+    $htmlContainer .= '<div class="col-xs-4">';
+    $htmlContainer .= '<div class="input-group">';
+    $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->tame . '</span>';
+    $htmlContainer .= '<input type="text" class="form-control numberInput" id="' . $statName . 'level" aria-type="' . $statName . '">';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '<div class="col-xs-4">';
+    $htmlContainer .= '<div class="input-group">';
+    $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->wish . '</span>';
+    $htmlContainer .= '<input type="text" class="form-control" id="' . $statName . 'wish" aria-type="' . $statName . '">';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '<div class="col-xs-4">';
+    $htmlContainer .= '<div class="input-group">';
+    $htmlContainer .= '<span class="input-group-addon chance">' . $langxml->chance . '</span>';
+    $htmlContainer .= '<input type="text" class="form-control" disabled  id="' . $statName . 'chance">';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '</div>';
+    $htmlContainer .= '</div>';
+    return $htmlContainer;
+}
+?>
+
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Dino Value Manager</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
-        <style>
-            .input-group-addon{
-                width:110px;
-            }
-
-            .btn-primary{
-                width: 100%;    
-            }
-            .input-group > .form-control{
-                width:75px !important;
-            }
-            .row{
-                margin-bottom: 7px;
-            }
-            .container{
-                width: 640px;
-                padding-top: 50px;
-            }
-            .chance{
-                width:  75px;
-            }
-            .chance + .form-control{
-                width: 110px !important;
-                text-align: right;
-            }
-        </style>
+        <link rel="stylesheet" href="css/dvc.css">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         -->
     </head>
@@ -44,19 +49,19 @@ and open the template in the editor.
             <div class="row">
                 <div class="col-md-4 col-xs-12">
                     <select class="form-control" id="dinotype">
-                        <option>Choose Dino</option>
-                        <?php
-                        $handle = fopen("./data/dinos.html", "r");
-                        if ($handle) {
-                            while (($line = fgets($handle)) !== false) {
-                                echo "<option>" . $line . "</option>";
-                            }
+                        <option><?= $langxml->selectdefault; ?></option>
+<?php
+$handle = fopen("./data/dinos.html", "r");
+if ($handle) {
+    while (($line = fgets($handle)) !== false) {
+        echo "<option>" . $line . "</option>";
+    }
 
-                            fclose($handle);
-                        } else {
-                            // error opening the file.
-                        }
-                        ?>
+    fclose($handle);
+} else {
+    // error opening the file.
+}
+?>
                     </select>
                 </div>
                 <div class="col-md-4 col-xs-12">
@@ -77,6 +82,12 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+<?php
+    foreach($stats as $statName){
+        echo generateStatLine($statName,$langxml);
+    }
+?>
+            <!--
             <div class="row">
                 <div class="col-xs-4">
                     <div class="input-group">
@@ -221,137 +232,15 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            -->
             <div class="alert alert-danger alert-dismissable" contenteditable="true">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">OK! I accept that</button>
                 <h4>This site uses Cookies!</h4>
                 To save your wishstats for specific Dinos this Site uses Cookies.
-        </div>
+            </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script>
-            var p = 1 / 7;
-            var stats = ["hp", "stam", "oxy", "food", "weight", "melee", "speed"];
-
-            $(".form-control").focusout(function (e) {
-                var fieldtype = $(e.target).attr("aria-type");
-                if ($("#" + fieldtype + "level").val() == '' ||
-                        $("#" + fieldtype + "wish").val() == '' ||
-                        $("#blevel").val() == '') {
-                    console.log("error");
-                    return;
-                }
-                if (e.target.id == "blevel") {
-                    stats.forEach(function (entry) {
-                        $("#" + entry + "chance").val(calcChances(entry));
-                    });
-                } else {
-                    $("#" + fieldtype + "chance").val(calcChances(fieldtype));
-                }
-                getBestChance();
-            });
-
-            function getBestChance() {
-                var bestChance = 0;
-                var bestType;
-                stats.forEach(function (entry) {
-                    var testvalue = $("#" + entry + "chance").val();
-                    console.log(testvalue = parseInt(testvalue.replace("%", "")));
-                    if (testvalue > bestChance) {
-                        bestChance = testvalue;
-                        bestType = entry;
-                    }
-                });
-                $("#coi").val(calcChances(bestType));
-            }
-
-            $(".btn-primary").click(function () {
-                console.log(document.cookie);
-                var exdays = 999;
-                var wishValues = {};
-                var dino = $("#dinotype").val();
-                if (dino != "Choose Dino") {
-                    wishValues[dino] = {};
-                    stats.forEach(function (entry) {
-                        wishValues[dino][entry] = {};
-                        wishValues[dino][entry] = $("#" + entry + "wish").val();
-                    });
-                    console.log(wishValues);
-                    var d = new Date();
-                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                    var expires = "expires=" + d.toUTCString();
-                    document.cookie = "wishes=" + JSON.stringify(wishValues) + ";" + expires + ";path=/";
-                }
-
-
-            });
-
-
-            function calcChances(fieldtype) {
-                target = parseInt($("#" + fieldtype + "wish").val()) - parseInt($("#" + fieldtype + "level").val());
-                console.log("target:" + target);
-                return getChance(target, p, Number($("#blevel").val()));
-            }
-
-
-            function chanceForX(target, chance, rolls) {
-                var bino = this.binomial(rolls, target);
-                if (!bino) {
-                    console.log("ERROR: 100");
-                    return;
-                }
-                return bino * (Math.pow(chance, target)) * Math.pow((1 - chance), (rolls - target));
-            }
-
-            function getChance(target, chance, rolls) {
-                var realChance = 1;
-                for (var x = 0; x < target; x++) {
-                    var P = this.chanceForX(x, chance, rolls);
-                    realChance -= P;
-                    console.log("P(" + x + "):" + P)
-                }
-                console.log(realChance);
-                return (realChance * 100).toFixed(5) + "%";
-            }
-
-            function binomial(n, k) {
-                if ((typeof n !== 'number') || (typeof k !== 'number'))
-                    return false;
-                var coeff = 1;
-                for (var x = n - k + 1; x <= n; x++)
-                    coeff *= x;
-                for (x = 1; x <= k; x++)
-                    coeff /= x;
-                return coeff;
-            }
-            $("#dinotype").change(function () {
-                dinoType = $("#dinotype").val();
-                console.log(dinoType);
-                if (dinoType != "Choose Dino") {
-                    var parsed = JSON.parse(getCookie("wishes"));
-                    console.log(parsed);
-                    stats.forEach(function (entry) {
-
-                        $("#" + entry + "wish").val(parsed[dinoType][entry]);
-                    });
-                }
-            });
-            function getCookie(cname) {
-                var name = cname + "=";
-                var decodedCookie = decodeURIComponent(document.cookie);
-                var ca = decodedCookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-                return "";
-            }
-
-        </script>
+        <script src="./js/dvc.js"></script>
     </body>
 </html>

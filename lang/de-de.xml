@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 
 
-<root>
-    
-</root>
+
+<lang>
+    <name>Deutsch</name>
+    <nameShort>de</nameShort>
+    <selectdefault>Wähle Dino</selectdefault>
+    <bonuslevel>Bonus Level</bonuslevel>
+    <blevelTooltip>Level die durch das Zähmen dazukommen</blevelTooltip>
+    <health>Leben</health>
+    <stamina>Ausdauer</stamina>
+    <oxygen>Sauerstoff</oxygen>
+    <weight>Gewicht</weight>
+    <food>Essen</food>
+    <melee>Nachkampf</melee>
+    <speed>Tempo</speed>
+    <chance>Wkt.</chance>
+    <chanceTooltip>Wahrscheinlichkeit einen Stat zu bekommen der höher ist als der angegebene</chanceTooltip>
+    <wish>Wunsch</wish>
+    <wishTooltip>Dein Höchster Wert in diesem Stat</wishTooltip>
+    <chanceToImprove>Wkt. für Verbesserung</chanceToImprove>
+    <cookieAccept>Ok! Ich akzeptiere das!</cookieAccept>
+    <cookieText>Um deine Wunschstats und Sprache zu speichern benutzt diese SEite Cookies</cookieText>
+    <tame>Dino</tame>
+</lang>
