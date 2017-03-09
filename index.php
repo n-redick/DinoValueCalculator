@@ -77,7 +77,7 @@ if ($handle) {
             <div class="row"style="margin-top:50px;">
                 <div class="col-xs-12">
                     <div class="input-group" style="width:255px;margin:0 auto;">
-                        <span class="input-group-addon">Chance of Improvement</span>
+                        <span class="input-group-addon"><?= $langxml->chanceToImprove; ?></span>
                         <input type="text" class="form-control" disabled id="coi">
                     </div>
                 </div>
@@ -87,156 +87,10 @@ if ($handle) {
         echo generateStatLine($statName,$langxml);
     }
 ?>
-            <!--
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >HP Tame</span>
-                        <input type="text" class="form-control" id="hplevel" aria-type="hp">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >HP Wish</span>
-                        <input type="text" class="form-control" id="hpwish" aria-type="hp">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled  id="hpchance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon">Stam Tame</span>
-                        <input type="text" class="form-control" id="stamlevel" aria-type="stam">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Stam Wish</span>
-                        <input type="text" class="form-control" id="stamwish" aria-type="stam">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="stamchance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Oxy Tame</span>
-                        <input type="text" class="form-control" id="oxylevel" aria-type="oxy">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Oxy Wish</span>
-                        <input type="text" class="form-control" id="oxywish"  aria-type="oxy">
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="oxychance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Food Tame</span>
-                        <input type="text" class="form-control" id="foodlevel" aria-type="food">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Food Wish</span>
-                        <input type="text" class="form-control" id="foodwish"  aria-type="food">
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="foodchance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Weight Tame</span>
-                        <input type="text" class="form-control" id="weightlevel" aria-type="weight">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Weight Wish</span>
-                        <input type="text" class="form-control" id="weightwish" aria-type="weight">
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="weightchance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Melee Tame</span>
-                        <input type="text" class="form-control" id="meleelevel" aria-type="melee">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Melee Wish</span>
-                        <input type="text" class="form-control" id="meleewish"  aria-type="melee">
-                    </div>
-                </div>
-
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="meleechance">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Speed Tame</span>
-                        <input type="text" class="form-control" id="speedlevel"  aria-type="speed">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon" >Speed Wish</span>
-                        <input type="text" class="form-control" id="speedwish"  aria-type="speed">
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="input-group">
-                        <span class="input-group-addon chance">Chance</span>
-                        <input type="text" class="form-control" disabled id="speedchance">
-                    </div>
-                </div>
-            </div>
-            -->
             <div class="alert alert-danger alert-dismissable" contenteditable="true">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">OK! I accept that</button>
-                <h4>This site uses Cookies!</h4>
-                To save your wishstats for specific Dinos this Site uses Cookies.
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><?= $langxml->cookieAccept; ?></button>
+                <h4><?= $langxml->cookieHeadline; ?></h4>
+                <?= $langxml->cookieText; ?>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

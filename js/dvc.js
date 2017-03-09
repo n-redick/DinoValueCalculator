@@ -2,7 +2,8 @@
  * Variables
  ##########################*/
 var p = 1 / 7;
-var stats = ["hp", "stam", "oxy", "food", "weight", "melee", "speed"];
+var accuracy = 4;
+var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "speed"];
 
 /*###########################
  * Listeners
@@ -122,7 +123,7 @@ function getChance(target, chance, rolls) {
         console.info("P(" + x + "):" + P)
     }
     console.info(realChance);
-    return (realChance * 100).toFixed(5) + "%";
+    return (realChance * 100).toFixed(accuracy) + "%";
 }
 
 function binomial(n, k) {

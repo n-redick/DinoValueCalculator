@@ -1,24 +1,28 @@
 .input-group-addon{
-    width:110px;
+    width:100%;
 }
 
 .btn-primary{
     width: 100%;    
 }
 .input-group > .form-control{
-    width:75px !important;
+    width:50px !important;
 }
 .row{
     margin-bottom: 7px;
 }
 .container{
-    width: 640px;
+    width: 775px;
     padding-top: 50px;
 }
 .chance{
     width:  75px;
 }
 .chance + .form-control{
-    width: 110px !important;
+    width: 100% !important;
     text-align: right;
+}
+
+#coi{
+    width:100px !important;
 }

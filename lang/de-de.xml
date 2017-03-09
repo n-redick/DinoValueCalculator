@@ -15,12 +15,13 @@
     <food>Essen</food>
     <melee>Nachkampf</melee>
     <speed>Tempo</speed>
-    <chance>Wkt.</chance>
+    <chance>Wahrscheinlichkeit</chance>
     <chanceTooltip>Wahrscheinlichkeit einen Stat zu bekommen der höher ist als der angegebene</chanceTooltip>
     <wish>Wunsch</wish>
     <wishTooltip>Dein Höchster Wert in diesem Stat</wishTooltip>
-    <chanceToImprove>Wkt. für Verbesserung</chanceToImprove>
+    <chanceToImprove>Wahrscheinlichkeit für Verbesserung</chanceToImprove>
     <cookieAccept>Ok! Ich akzeptiere das!</cookieAccept>
-    <cookieText>Um deine Wunschstats und Sprache zu speichern benutzt diese SEite Cookies</cookieText>
+    <cookieHeadline>Diese Seite nutzt Cookies</cookieHeadline>
+    <cookieText>Um deine Wunschstats und Sprache zu speichern benutzt diese Seite Cookies</cookieText>
     <tame>Dino</tame>
 </lang>

@@ -15,12 +15,13 @@
     <weight>weight</weight>
     <melee>melee</melee>
     <speed>speed</speed>
-    <chance>chance</chance>
-    <chanceTooltip>Chance to get a higher stat then the given one</chanceTooltip>
+    <chance>probability</chance>
+    <chanceTooltip>probability to get a higher stat then the given one</chanceTooltip>
     <wish>wish</wish>
     <wishTooltip>Your Highest Value in that stat</wishTooltip>
-    <chanceToImprove>Chance of Improvement</chanceToImprove>
+    <chanceToImprove>probability of Improvement</chanceToImprove>
     <cookieAccept>Ok! I accept that!</cookieAccept>
+    <cookieHeadline>This site uses Cookies!</cookieHeadline>
     <cookieText>To save your wishstats for specific dinos this Site uses Cookies.</cookieText>
     <tame>Tame</tame>
 </lang>
