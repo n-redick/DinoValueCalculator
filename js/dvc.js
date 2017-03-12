@@ -4,6 +4,7 @@
 var p = 1 / 7;
 var accuracy = 4;
 var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "speed"];
+var cookies = false;
 
 /*###########################
  * Listeners
@@ -11,6 +12,10 @@ var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "speed"];
 $('.numberInput').keyup(function (e)
 {
     onlyNumbers(this);
+});
+
+$(".acceptCookie").click(function () {
+    cookies = true;
 });
 
 $(".form-control").focusout(function (e) {
@@ -55,34 +60,38 @@ function calcChance(e) {
 }
 
 function saveToCookie() {
-    console.info(document.cookie);
-    var exdays = 999;
-    var wishValues = {};
-    var dino = $("#dinotype").val();
-    if (dino != "Choose Dino") {
-        wishValues[dino] = {};
-        stats.forEach(function (entry) {
-            wishValues[dino][entry] = {};
-            wishValues[dino][entry] = $("#" + entry + "wish").val();
-        });
-        console.info(wishValues);
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = "wishes=" + JSON.stringify(wishValues) + ";" + expires + ";path=/";
+    if (cookie) {
+        console.info(document.cookie);
+        var exdays = 999;
+        var wishValues = {};
+        var dino = $("#dinotype").val();
+        if (dino != "Choose Dino") {
+            wishValues[dino] = {};
+            stats.forEach(function (entry) {
+                wishValues[dino][entry] = {};
+                wishValues[dino][entry] = $("#" + entry + "wish").val();
+            });
+            console.info(wishValues);
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = "wishes=" + JSON.stringify(wishValues) + ";" + expires + ";path=/";
+        }
     }
 }
 
 function loadCookieValues() {
-    dinoType = $("#dinotype").val();
-    console.info(dinoType);
-    if (dinoType != "Choose Dino") {
-        var parsed = JSON.parse(getCookie("wishes"));
-        console.info(parsed);
-        stats.forEach(function (entry) {
+    if (cookie) {
+        dinoType = $("#dinotype").val();
+        console.info(dinoType);
+        if (dinoType != "Choose Dino") {
+            var parsed = JSON.parse(getCookie("wishes"));
+            console.info(parsed);
+            stats.forEach(function (entry) {
 
-            $("#" + entry + "wish").val(parsed[dinoType][entry]);
-        });
+                $("#" + entry + "wish").val(parsed[dinoType][entry]);
+            });
+        }
     }
 }
 
@@ -138,17 +147,20 @@ function binomial(n, k) {
 }
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+    if (cookie) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
         }
     }
     return "";
+
 }
