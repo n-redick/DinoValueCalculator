@@ -15,7 +15,9 @@ $('.numberInput').keyup(function (e)
 });
 
 $(".acceptCookie").click(function () {
+    console.log("cookies:OK!");
     cookies = true;
+    $(".btn-primary").removeClass('disabled');
 });
 
 $(".form-control").focusout(function (e) {
@@ -25,6 +27,10 @@ $(".form-control").focusout(function (e) {
 
 $(".btn-primary").click(function () {
     saveToCookie();
+});
+
+$(".btn-info").click(function () {
+    $(".impressum").slideToggle();
 });
 
 $("#dinotype").change(function () {

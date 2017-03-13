@@ -71,7 +71,7 @@ function generateStatLine($statName, $langxml) {
                     </div>
                 </div>
                 <div class="col-md-4 col-xs-12">
-                    <div class="btn btn-primary"> Save Wish Values</div>
+                    <div class="btn btn-primary disabled"> Save Wish Values</div>
                 </div>
             </div>
             <div class="row"style="margin-top:50px;">
@@ -87,16 +87,20 @@ function generateStatLine($statName, $langxml) {
                 echo generateStatLine($statName, $langxml);
             }
             ?>
-            <div class="alert alert-danger alert-dismissable" contenteditable="true">
-                <button type="button" class="close acceptCookie" data-dismiss="alert" aria-hidden="true"><?= $langxml->cookieAccept; ?></button>
+            <div class="alert alert-info alert-dismissable" style="height:130px;" contenteditable="true">
                 <h4><?= $langxml->cookieHeadline; ?></h4>
                 <?= $langxml->cookieText; ?>
+                <div class="col-md-6 col-xs-12" style="margin-top:12px"><button type="button" style="right:0px;top:0px;" class="close acceptCookie" data-dismiss="alert" aria-hidden="true"><?= $langxml->cookieAccept; ?></button></div>
+                <div class="col-md-6 col-xs-12" style="margin-top:12px"><button type="button" style="right:0px;top:0px;" class="close" data-dismiss="alert" aria-hidden="true"><?= $langxml->cookieDecline; ?></button></div>
             </div>
-            <div class="col-xs-12">Impressum</div>
-            <div class="alert alert-danger alert-dismissable" contenteditable="true">
-                <button type="button" class="close acceptCookie" data-dismiss="alert" aria-hidden="true"><?= $langxml->cookieAccept; ?></button>
-                <h4><?= $langxml->cookieHeadline; ?></h4>
-                <?= $langxml->cookieText; ?>
+            <div class="row">
+                <div class="col-md-4 col-xs-12">
+                    <div class="btn btn-info"> Impressum</div>
+                </div>
+            </div>
+            <div class="alert alert-info alert-dismissable impressum" style="display:none" contenteditable="true">
+                <h4><?= $langxml->impressumHeadline; ?></h4>
+                <?= $langxml->impressumText; ?>
             </div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

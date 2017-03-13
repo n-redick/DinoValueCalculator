@@ -21,7 +21,10 @@
     <wishTooltip>Dein Höchster Wert in diesem Stat</wishTooltip>
     <chanceToImprove>Wahrscheinlichkeit für Verbesserung</chanceToImprove>
     <cookieAccept>Ok! Ich akzeptiere das!</cookieAccept>
+    <cookieDecline>Ich will keine Features! Cookies sind Kacke!</cookieDecline>
     <cookieHeadline>Diese Seite nutzt Cookies</cookieHeadline>
     <cookieText>Um deine Wunschstats und Sprache zu speichern benutzt diese Seite Cookies</cookieText>
     <tame>Dino</tame>
+    <impressumHeadline>Impressum:</impressumHeadline>
+    <impressumText><![CDATA[Kontakt:<br />Nico Redick<br />Sachsenwaldstraße 13<br />44149 Dortmund<br />admin@n-redick.de]]></impressumText>
 </lang>

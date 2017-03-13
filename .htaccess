@@ -1,0 +1,39 @@
+Options +FollowSymLinks
+Options -Indexes
+
+#redirect forum
+# Rules for: actions
+RewriteRule ^forum/(activate|admin|announce|attachapprove|buddy|calendar|clock|collapse)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(coppa|credits|deletemsg|display|dlattach|editpoll|editpoll2|emailuser)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(findmember|groups|help|helpadmin|im|jseditor|jsmodify|jsoption)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(lock|lockvoting|login|login2|logout|markasread|mergetopics|mlist)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(moderate|modifycat|modifykarma|movetopic|movetopic2|notify|notifyboard|openidreturn)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(pm|post|post2|printpage|profile|quotefast|quickmod|quickmod2)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(recent|register|register2|reminder|removepoll|removetopic2|reporttm|requestmembers)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(restoretopic|search|search2|sendtopic|shoutbox|smstats|suggest|spellcheck)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(splittopics|stats|sticky|theme|trackip|about:mozilla|about:unknown|unread)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(unreadreplies|verificationcode|viewprofile|vote|viewquery|viewsmfile|who|\.xml)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+RewriteRule ^forum/(xmlhttp)/?$ /forum/index.php?pretty;action=$1 [L,QSA]
+
+# Rules for: boards
+RewriteRule ^forum/([-_!~*'()$a-zA-Z0-9]+)/?$ /forum/index.php?pretty;board=$1.0 [L,QSA]
+RewriteRule ^forum/([-_!~*'()$a-zA-Z0-9]+)/([0-9]*)/?$ /forum/index.php?pretty;board=$1.$2 [L,QSA]
+
+# Rules for: topics
+RewriteRule ^forum/([-_!~*'()$a-zA-Z0-9]+)/([-_!~*'()$a-zA-Z0-9]+)/?$ /forum/index.php?pretty;board=$1;topic=$2.0 [L,QSA]
+RewriteRule ^forum/([-_!~*'()$a-zA-Z0-9]+)/([-_!~*'()$a-zA-Z0-9]+)/([0-9]*|msg[0-9]*|new)/?$ /forum/index.php?pretty;board=$1;topic=$2.$3 [L,QSA]
+
+# These folders will not be touched.
+RewriteEngine On
+RewriteCond %{REQUEST_URI} "/forum/" [OR]
+RewriteCond %{REQUEST_URI} "/wiki/" [OR]
+RewriteCond %{REQUEST_URI} "/awiki/" [OR]
+RewriteCond %{REQUEST_URI} "/shop/" [OR]
+RewriteCond %{REQUEST_URI} "/css/" [OR]
+RewriteCond %{REQUEST_URI} "/js/" [OR]
+RewriteCond %{REQUEST_URI} "/img/"
+RewriteRule (.*) $1 [L]
+
+# Then have your redirect rule
+RewriteEngine On
+RewriteRule ^([a-zA-Z0-9-/_]+)$ /index.php?url=$1 [NC,L]
