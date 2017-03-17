@@ -3,8 +3,10 @@
  ##########################*/
 var p = 1 / 7;
 var accuracy = 4;
-var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "speed"];
+var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "movement"];
 var cookies = false;
+var dino_data = null;
+var current_dino_data = null;
 
 /*###########################
  * Listeners
@@ -35,11 +37,91 @@ $(".btn-info").click(function () {
 
 $("#dinotype").change(function () {
     loadCookieValues();
+    setCurrentDinoData();
 });
 
+$(".wildValue").focusout(function(e){
+    $("#"+$(e.target).attr("aria-type")+"level").val(
+        getLevelUpsPreTame($(e.target).attr("aria-type"),$(e.target).val())
+    );
+});
 /*###########################
  * Function
  ##########################*/
+function loadDinoData() {
+    $.ajaxSetup({
+        async: false
+    });
+    $.getJSON("./data/dino_data.json", function (json) {
+        dino_data = json;
+        //console.log(dino_data);
+    });
+    $.ajaxSetup({
+        async: true
+    });
+}
+
+function setCurrentDinoData() {
+    if (dino_data === null) {
+        loadDinoData();
+    }
+    var dino = $("#dinotype").val();
+    //console.log("test");
+    jQuery.each(dino_data, function (i, val) {
+        if (dino === val.name) {
+            current_dino_data = val;
+            return;
+        }
+    });
+
+}
+
+function getLevelUpsPreTame(stat, value) {
+    var dino = $("#dinotype").val();
+    var base = 0;
+    var wild = 0;
+    if (dino == "Choose Dino" || dino == "Wähle Dino") {
+        return
+    }
+    jQuery.each(current_dino_data, function (i, val) {
+        if (i === stat + "_base") {
+            base = val;
+        }
+        if (i === stat + "_inc_wild") {
+            wild = val;
+        }
+    });
+    if (stat != 'movement') {
+        var rawValue = value;
+        rawValue -= base;
+        console.info(rawValue);
+        //round down;
+        return rawValue / wild;
+    } else {
+
+    }
+}
+
+function getLevelUpsTame(stat, value) {
+    var dino = $("#dinotype").val();
+    var add = 0;
+    var mul = 0;
+    if (dino == "Choose Dino" || dino == "Wähle Dino") {
+        return
+    }
+    jQuery.each(current_dino_data, function (i, val) {
+        if (i === stat + "_tamed_add") {
+            add = val;
+        }
+        if (i === stat + "_tamed_mul") {
+            mul = val;
+        }
+    });
+    value = ((value/(100+mul))*100)-7;
+    //Round UP
+    return getLevelUpsPreTame(stat,value);
+}
+
 function onlyNumbers(e) {
     if (/\D/g.test(e.value))
     {
@@ -53,7 +135,6 @@ function calcChance(e) {
     if ($("#" + fieldtype + "level").val() == '' ||
             $("#" + fieldtype + "wish").val() == '' ||
             $("#blevel").val() == '') {
-        console.info("error");
         return;
     }
     if (e.target.id == "blevel") {
@@ -66,7 +147,7 @@ function calcChance(e) {
 }
 
 function saveToCookie() {
-    if (cookie) {
+    if (cookies) {
         console.info(document.cookie);
         var exdays = 999;
         var wishValues = {};
@@ -87,7 +168,7 @@ function saveToCookie() {
 }
 
 function loadCookieValues() {
-    if (cookie) {
+    if (cookies) {
         dinoType = $("#dinotype").val();
         console.info(dinoType);
         if (dinoType != "Choose Dino") {
@@ -106,7 +187,10 @@ function getBestChance() {
     var bestType;
     stats.forEach(function (entry) {
         var testvalue = $("#" + entry + "chance").val();
-        console.info(testvalue = parseInt(testvalue.replace("%", "")));
+        testvalue = parseInt(testvalue.replace("%", ""));
+        if (isNaN(testvalue)) {
+            return false;
+        }
         if (testvalue > bestChance) {
             bestChance = testvalue;
             bestType = entry;
@@ -117,6 +201,9 @@ function getBestChance() {
 
 function calcChances(fieldtype) {
     target = parseInt($("#" + fieldtype + "wish").val()) - parseInt($("#" + fieldtype + "level").val());
+    if (isNaN(target)) {
+        return false;
+    }
     console.info("target:" + target);
     return getChance(target, p, Number($("#blevel").val()));
 }

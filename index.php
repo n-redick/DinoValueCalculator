@@ -5,21 +5,23 @@
 
 $lang = "de-de";
 $langxml = simplexml_load_file("./lang/" . $lang . ".xml");
-$stats = Array("health", "stamina", "oxygen", "food", "weight", "melee", "speed");
+$stats = Array("health", "stamina", "oxygen", "food", "weight", "melee", "movement");
 
 function generateStatLine($statName, $langxml) {
     $htmlContainer = '';
     $htmlContainer .= '<div class="row">';
     $htmlContainer .= '<div class="col-xs-4">';
-    $htmlContainer .= '<div class="input-group">';
     $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->tame . '</span>';
-    $htmlContainer .= '<input type="text" class="form-control numberInput" id="' . $statName . 'level" aria-type="' . $statName . '">';
+    $htmlContainer .= '<div class="input-group">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput wildValue values" id="' . $statName . 'value" aria-type="' . $statName . '">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'level" aria-type="' . $statName . '">';
     $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '<div class="col-xs-4">';
-    $htmlContainer .= '<div class="input-group">';
     $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->wish . '</span>';
-    $htmlContainer .= '<input type="text" class="form-control" id="' . $statName . 'wish" aria-type="' . $statName . '">';
+    $htmlContainer .= '<div class="input-group">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput tamedValue values" id="' . $statName . 'value" aria-type="' . $statName . '">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'wish" aria-type="' . $statName . '">';
     $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '<div class="col-xs-4">';
@@ -51,15 +53,9 @@ function generateStatLine($statName, $langxml) {
                     <select class="form-control" id="dinotype">
                         <option><?= $langxml->selectdefault; ?></option>
                         <?php
-                        $handle = fopen("./data/dinos.html", "r");
-                        if ($handle) {
-                            while (($line = fgets($handle)) !== false) {
-                                echo "<option>" . $line . "</option>";
-                            }
-
-                            fclose($handle);
-                        } else {
-                            // error opening the file.
+                        $dino_json = json_decode(file_get_contents("./data/dino_data.json"));
+                        foreach ($dino_json as $value) {
+                            echo "<option>" . $value->name . "</option>";
                         }
                         ?>
                     </select>

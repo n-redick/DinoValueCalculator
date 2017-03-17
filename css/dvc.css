@@ -5,8 +5,12 @@
 .btn-primary{
     width: 100%;    
 }
-.input-group > .form-control{
-    width:50px !important;
+.input-group >  .values{
+    width: 75% !important;
+}
+
+.input-group > .levels{
+    width: 25% !important;
 }
 .row{
     margin-bottom: 7px;
