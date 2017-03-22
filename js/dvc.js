@@ -5,14 +5,14 @@ var p = 1 / 7;
 var accuracy = 4;
 var stats = ["health", "stamina", "oxygen", "food", "weight", "melee", "movement"];
 var cookies = false;
-var dino_data = null;
-var current_dino_data = null;
+var dinoData = null;
+var currentDinoData = null;
+var currentDinoIndex = null;
 
 /*###########################
  * Listeners
  ##########################*/
-$('.numberInput').keyup(function (e)
-{
+$('.numberInput').keyup(function (){
     onlyNumbers(this);
 });
 
@@ -22,7 +22,7 @@ $(".acceptCookie").click(function () {
     $(".btn-primary").removeClass('disabled');
 });
 
-$(".form-control").focusout(function (e) {
+$(".form-control").change(function (e) {
     calcChance(e);
     getBestChance();
 });
@@ -35,26 +35,90 @@ $(".btn-info").click(function () {
     $(".impressum").slideToggle();
 });
 
-$("#dinotype").change(function () {
+$("#dinotype").change(function (e) {
     loadCookieValues();
     setCurrentDinoData();
+    currentDinoIndex = $(this).prop('selectedIndex');
+    manageRawValueFields();
 });
 
-$(".wildValue").focusout(function(e){
-    $("#"+$(e.target).attr("aria-type")+"level").val(
-        getLevelUpsPreTame($(e.target).attr("aria-type"),$(e.target).val())
-    );
+$(".wildValue").focusout(function (e) {
+    var levelPre = getLevelUpsPreTame($(e.target).attr("aria-type"), $(e.target).val());
+    if (levelPre < 0) {
+        levelPre = 0;
+    }
+    $("#" + $(e.target).attr("aria-type") + "level").val(levelPre);
 });
+
+//Spinner
+(function ($) {
+    $('.spinner .btn:first-of-type').on('click', function (e) {
+        var input = getButtonPressed(e);
+        input.val(parseInt(input.val(), 10) + 1);
+        if (input.attr("aria-status") === "wild") {
+            var RawWild = calculateRawWildValue(input.val(), input.attr("aria-type"));
+            $("#" + input.attr("aria-type") + "WildValue").val(RawWild);
+        }
+        calcChance(e);
+        getBestChance();
+    });
+    $('.spinner .btn:last-of-type').on('click', function (e) {
+        var input = getButtonPressed(e);
+        input.val(parseInt(input.val(), 10) - 1);
+    });
+})(jQuery);
+
 /*###########################
  * Function
  ##########################*/
+function getButtonPressed(eventTarget) {
+    if ($(eventTarget.target).hasClass('btn')) {
+        return $("#" + $(eventTarget.target).children().attr("aria-field-daddy"));
+    } else {
+        return $("#" + $(eventTarget.target).attr("aria-field-daddy"));
+    }
+}
+
+function manageRawValueFields() {
+    if (currentDinoIndex === 0) {
+        $(".values").prop('disabled', true);
+    } else {
+        $(".values").prop('disabled', false);
+    }
+}
+
+function calculateRawWildValue(level, stat) {
+    var base, wild = 0;
+    if (currentDinoIndex === 0) {
+        return
+    }
+    jQuery.each(currentDinoData, function (i, val) {
+        if (i === stat + "_base") {
+            base = val;
+        }
+        if (i === stat + "_inc_wild") {
+            wild = val;
+        }
+    });
+    if (stat != 'movement') {
+        var rawValue = base;
+        rawValue += (level * wild);
+        return rawValue;
+    } else {
+
+    }
+}
+function calculateRawTameValue() {
+
+}
+
 function loadDinoData() {
     $.ajaxSetup({
         async: false
     });
-    $.getJSON("./data/dino_data.json", function (json) {
-        dino_data = json;
-        //console.log(dino_data);
+    $.getJSON("./data/dinoData.json", function (json) {
+        dinoData = json;
+        //console.log(dinoData);
     });
     $.ajaxSetup({
         async: true
@@ -62,14 +126,14 @@ function loadDinoData() {
 }
 
 function setCurrentDinoData() {
-    if (dino_data === null) {
+    if (dinoData === null) {
         loadDinoData();
     }
     var dino = $("#dinotype").val();
     //console.log("test");
-    jQuery.each(dino_data, function (i, val) {
+    jQuery.each(dinoData, function (i,val) {
         if (dino === val.name) {
-            current_dino_data = val;
+            currentDinoData = val;
             return;
         }
     });
@@ -77,13 +141,12 @@ function setCurrentDinoData() {
 }
 
 function getLevelUpsPreTame(stat, value) {
-    var dino = $("#dinotype").val();
     var base = 0;
     var wild = 0;
-    if (dino == "Choose Dino" || dino == "Wähle Dino") {
-        return
+    if (currentDinoIndex === 0) {
+        return 0
     }
-    jQuery.each(current_dino_data, function (i, val) {
+    jQuery.each(currentDinoData, function (i, val) {
         if (i === stat + "_base") {
             base = val;
         }
@@ -95,8 +158,11 @@ function getLevelUpsPreTame(stat, value) {
         var rawValue = value;
         rawValue -= base;
         console.info(rawValue);
-        //round down;
+        if(rawValue < 0){
+            return 0;
+        }
         return rawValue / wild;
+        
     } else {
 
     }
@@ -106,10 +172,10 @@ function getLevelUpsTame(stat, value) {
     var dino = $("#dinotype").val();
     var add = 0;
     var mul = 0;
-    if (dino == "Choose Dino" || dino == "Wähle Dino") {
+    if (currentDinoIndex === 0) {
         return
     }
-    jQuery.each(current_dino_data, function (i, val) {
+    jQuery.each(currentDinoData, function (i, val) {
         if (i === stat + "_tamed_add") {
             add = val;
         }
@@ -117,9 +183,9 @@ function getLevelUpsTame(stat, value) {
             mul = val;
         }
     });
-    value = ((value/(100+mul))*100)-7;
+    value = ((value / (100 + mul)) * 100) - 7;
     //Round UP
-    return getLevelUpsPreTame(stat,value);
+    return getLevelUpsPreTame(stat, value);
 }
 
 function onlyNumbers(e) {

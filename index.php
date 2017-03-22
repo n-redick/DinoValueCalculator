@@ -8,20 +8,27 @@ $langxml = simplexml_load_file("./lang/" . $lang . ".xml");
 $stats = Array("health", "stamina", "oxygen", "food", "weight", "melee", "movement");
 
 function generateStatLine($statName, $langxml) {
-    $htmlContainer = '';
-    $htmlContainer .= '<div class="row">';
+    $htmlContainer  = '<div class="row">';
     $htmlContainer .= '<div class="col-xs-4">';
     $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->tame . '</span>';
-    $htmlContainer .= '<div class="input-group">';
-    $htmlContainer .= '<input type="text" class="form-control numberInput wildValue values" id="' . $statName . 'value" aria-type="' . $statName . '">';
-    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'level" aria-type="' . $statName . '">';
+    $htmlContainer .= '<div class="input-group spinner">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput wildValue values" disabled id="' . $statName . 'WildValue" aria-type="' . $statName . '">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'level" aria-status="wild" aria-type="' . $statName . '" value="0">';
+    $htmlContainer .= '<div class="input-group-btn-vertical">';
+    $htmlContainer .= '<button class="btn btn-default" type="button" aria-type="' . $statName . '"><i class="fa fa-caret-up" aria-type="' . $statName . '" aria-field-daddy="' . $statName . 'level"></i></button>';
+    $htmlContainer .= '<button class="btn btn-default" type="button" aria-type="' . $statName . '"><i class="fa fa-caret-down" aria-type="' . $statName . '" aria-field-daddy="' . $statName . 'level"></i></button>';
+    $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '<div class="col-xs-4">';
     $htmlContainer .= '<span class="input-group-addon" >' . $langxml->$statName . ' ' . $langxml->wish . '</span>';
-    $htmlContainer .= '<div class="input-group">';
-    $htmlContainer .= '<input type="text" class="form-control numberInput tamedValue values" id="' . $statName . 'value" aria-type="' . $statName . '">';
-    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'wish" aria-type="' . $statName . '">';
+    $htmlContainer .= '<div class="input-group spinner">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput tamedValue values" disabled id="' . $statName . 'value"  aria-type="' . $statName . '">';
+    $htmlContainer .= '<input type="text" class="form-control numberInput levels" id="' . $statName . 'wish" aria-status="tamed" aria-type="' . $statName . '"  value="0">';
+    $htmlContainer .= '<div class="input-group-btn-vertical">';
+    $htmlContainer .= '<button class="btn btn-default" type="button" aria-type="' . $statName . '"><i class="fa fa-caret-up" aria-type="' . $statName . '" aria-field-daddy="' . $statName . 'wish"></i></button>';
+    $htmlContainer .= '<button class="btn btn-default" type="button" aria-type="' . $statName . '"><i class="fa fa-caret-down" aria-type="' . $statName . '" aria-field-daddy="' . $statName . 'wish"></i></button>';
+    $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '</div>';
     $htmlContainer .= '<div class="col-xs-4">';
@@ -43,6 +50,7 @@ function generateStatLine($statName, $langxml) {
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/dvc.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         -->
     </head>
